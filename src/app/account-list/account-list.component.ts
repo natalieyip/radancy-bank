@@ -28,7 +28,6 @@ export class AccountListComponent implements OnInit {
       type: new FormControl('', [Validators.required]),
       balance: new FormControl('100.00', [Validators.required, minAmountToOpen]),
     })
-  
   }
 
   onCreateNewButton() {
@@ -40,6 +39,7 @@ export class AccountListComponent implements OnInit {
     };
 
     this.accountService.createNewAccount(newAccount);
+    this.newAccountForm.reset({})
   }
 
   onDelete(id: string) {

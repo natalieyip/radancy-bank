@@ -12,8 +12,8 @@ describe('AccountListComponent', () => {
   let accountOne: Account, accountTwo: Account;
   let accounts: Account[];
 
-  beforeEach( () => {
-    mockAccountService = jasmine.createSpyObj('AccountService', ['getAccounts', 'updateAccount']);
+  beforeEach(async () => {
+   mockAccountService = jasmine.createSpyObj('AccountService', ['getAccounts']);
 
     accounts = [accountOne, accountTwo];
     accountOne = {
@@ -34,12 +34,14 @@ describe('AccountListComponent', () => {
       declarations: [ AccountListComponent ],
       imports: [ReactiveFormsModule],
       providers: [
-        { provide: AccountService, useValue: mockAccountService },
+         { provide: AccountService, useValue: mockAccountService },
       ],
     })
 
     fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+    mockAccountService.getAccounts.and.returnValue(of(accounts));
     fixture.detectChanges();
   });
 
@@ -47,12 +49,12 @@ describe('AccountListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should has required validator', () => {
-    mockAccountService.getAccounts.and.returnValue(of(accounts));
-    fixture.detectChanges();
-    const postDebugElement = fixture.debugElement.query(By.css('#createNewAccountButton'));
-    expect(postDebugElement).toBeTruthy()
-    console.log(component.accounts);
+  it('should have create new account button', () => {
+    const createButtonEl = fixture.debugElement.query(By.css('#createNewAccountButton'));
+    expect(createButtonEl).toBeTruthy();
+  });
 
+  it('call accountService', () => {
+    expect(mockAccountService.getAccounts).toHaveBeenCalled();
   });
 });
