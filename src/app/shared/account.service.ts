@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Account } from '../account-list/account-list.component';
 
-
 @Injectable({
   providedIn: 'root'
 })

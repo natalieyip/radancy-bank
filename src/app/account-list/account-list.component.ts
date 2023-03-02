@@ -39,7 +39,7 @@ export class AccountListComponent implements OnInit {
     };
 
     this.accountService.createNewAccount(newAccount);
-    this.newAccountForm.reset({})
+    this.newAccountForm.reset({balance: '100.00'})
   }
 
   onDelete(id: string) {

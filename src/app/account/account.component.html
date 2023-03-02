@@ -22,7 +22,7 @@
             </div>
 
             <input name="depositAmount" #depAmount type="number" class="form-control" formControlName="depositAmount">
-            <button class="btn btn-outline-secondary" type="button" (click)="onDeposit(+depAmount.value)">Deposit</button>
+            <button class="btn btn-outline-secondary" [ngClass]="manageAccountForm.invalid ? 'disabled' : ''" type="button" (click)="onDeposit(+depAmount.value)">Deposit</button>
             <div class="alert alert-danger" *ngIf="depositAmount?.errors?.['maxAmountToDeposit']">
                 Max deposit of $10,000.
             </div>
