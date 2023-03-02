@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { AccountService } from '../shared/account.service';
 import { Account, AccountListComponent, AccountType } from './account-list.component';
 
@@ -7,13 +9,13 @@ describe('AccountListComponent', () => {
   let component: AccountListComponent;
   let fixture: ComponentFixture<AccountListComponent>;
   let mockAccountService: any;
-  let accountOne: Account;
+  let accountOne: Account, accountTwo: Account;
   let accounts: Account[];
 
-  beforeEach(async () => {
+  beforeEach( () => {
     mockAccountService = jasmine.createSpyObj('AccountService', ['getAccounts', 'updateAccount']);
 
-    accounts = [accountOne];
+    accounts = [accountOne, accountTwo];
     accountOne = {
       id: '3',
       name: 'New account',
@@ -21,14 +23,20 @@ describe('AccountListComponent', () => {
       balance: 150
     };
 
-    await TestBed.configureTestingModule({
+    accountTwo = {
+      id: '2',
+      name: 'New account 2',
+      type: AccountType.checking,
+      balance: 1500
+    };
+
+    TestBed.configureTestingModule({
       declarations: [ AccountListComponent ],
       imports: [ReactiveFormsModule],
       providers: [
         { provide: AccountService, useValue: mockAccountService },
       ],
     })
-    .compileComponents();
 
     fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
@@ -37,5 +45,14 @@ describe('AccountListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should has required validator', () => {
+    mockAccountService.getAccounts.and.returnValue(of(accounts));
+    fixture.detectChanges();
+    const postDebugElement = fixture.debugElement.query(By.css('#createNewAccountButton'));
+    expect(postDebugElement).toBeTruthy()
+    console.log(component.accounts);
+
   });
 });

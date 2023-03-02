@@ -26,7 +26,6 @@ export class AccountService {
   updateAccount(id: string, updatedAccountFields: Partial<Account>) {
     const account = this.getAccount(id)
     Object.assign(account, updatedAccountFields)
-    
   }
 
   deleteAccount(id: string) {

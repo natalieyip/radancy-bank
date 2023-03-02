@@ -1,5 +1,6 @@
 
 <button 
+    id="createNewAccountButton"
     class="btn btn-primary" 
     type="button" 
     data-bs-toggle="modal" 
@@ -23,7 +24,7 @@
                         {{acc.name}} 
                     </a>
                 </td>
-                <td> {{acc.balance | currency }} </td>
+                <td id="accountBalance"> {{acc.balance | currency }} </td>
                 <td> {{acc.type}} </td>
                 <td>
                     <button class="btn btn-warning" (click)="onDelete(acc.id)">Delete</button>
@@ -56,6 +57,9 @@
                     <div class="input-group input-group-sm mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Amount</span>
                         <input type="number" min="100" class="form-control" name="balance" formControlName="balance">
+                        <div class="alert alert-danger" *ngIf="balance?.errors?.['minAmountToOpen']">
+                            Minimum amount to open is $100.00.
+                        </div>
                     </div>
 
                     <div class="input-group input-group-sm mb-3">

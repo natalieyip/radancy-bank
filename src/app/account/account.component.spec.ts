@@ -51,7 +51,5 @@ describe('AccountComponent', () => {
   xit('should create', () => {
     mockAccountService.getAccount.and.returnValue(of(accountOne));
     fixture.detectChanges();
-    fixture.detectChanges();
-
   });
 });

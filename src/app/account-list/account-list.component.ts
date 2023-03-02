@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { AccountService } from '../shared/account.service';
+import { minAmountToOpen } from '../shared/amount.validator';
 
 @Component({
   selector: 'account-list',
@@ -25,8 +26,7 @@ export class AccountListComponent implements OnInit {
     this.newAccountForm = this.formbuilder.group({
       name: new FormControl('', [Validators.required]),
       type: new FormControl('', [Validators.required]),
-      balance: new FormControl('100.00', [Validators.required]),
-      //add validator to ensure it's not below 100 
+      balance: new FormControl('100.00', [Validators.required, minAmountToOpen]),
     })
   
   }

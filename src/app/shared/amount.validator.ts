@@ -28,3 +28,10 @@ export function maxAmountToDeposit(control: AbstractControl) {
     }
     return null;
 }
+
+export function minAmountToOpen(control: AbstractControl) {
+    if (control.value < 100) {
+      return { minAmountToOpen: true };
+    }
+    return null;
+}
