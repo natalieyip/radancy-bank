@@ -1,0 +1,34 @@
+<div> 
+    <div id="accountName">
+        {{account.name}}
+    </div>
+    <div *ngIf="account">
+        {{account.balance | currency }}
+    </div>
+
+    <div class="input-group mb-3">
+        <form [formGroup]="manageAccountForm">
+            <input name="withdrawAmount" #wdAmount type="number" class="form-control" formControlName="withdrawAmount">
+            <button 
+                class="btn btn-outline-primary" 
+                [ngClass]="manageAccountForm.invalid ? 'disabled' : ''"
+                type="button" 
+                (click)="onWithdraw(+wdAmount.value)">Withdraw</button>
+            <div class="alert alert-danger" *ngIf="withdrawAmount?.errors?.['underOneHundred']">
+                Total balance after withdrawing should not be under $100.00. 
+            </div>
+            <div class="alert alert-danger" *ngIf="withdrawAmount?.errors?.['maxAmountToWithdraw']">
+                Cannot withdraw more than 90% of current balance. 
+            </div>
+
+            <input name="depositAmount" #depAmount type="number" class="form-control" formControlName="depositAmount">
+            <button class="btn btn-outline-secondary" type="button" (click)="onDeposit(+depAmount.value)">Deposit</button>
+            <div class="alert alert-danger" *ngIf="depositAmount?.errors?.['maxAmountToDeposit']">
+                Max deposit of $10,000.
+            </div>
+        </form>
+    </div>
+
+    <button class="btn btn-outline-secondary" type="button" (click)="onGoBack()">Go Back To Accounts</button>
+
+</div>

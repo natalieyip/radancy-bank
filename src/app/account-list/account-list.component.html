@@ -1,0 +1,83 @@
+
+<button 
+    class="btn btn-primary" 
+    type="button" 
+    data-bs-toggle="modal" 
+    data-bs-target="#newAccountModal">
+        Create New Account
+    </button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Account Name</th>
+            <th scope="col">Total Balance</th>
+            <th scope="col">Bank Type</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let acc of accounts">
+            <tr>
+                <td> 
+                    <a [routerLink]="['/accounts', acc.id]">
+                        {{acc.name}} 
+                    </a>
+                </td>
+                <td> {{acc.balance | currency }} </td>
+                <td> {{acc.type}} </td>
+                <td>
+                    <button class="btn btn-warning" (click)="onDelete(acc.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+</table>
+
+
+
+  
+
+<div class="modal fade" id="newAccountModal" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Create New Account </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="newAccountForm" #newAccFormDir="ngForm">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+                        <input type="text" class="form-control" name="name" formControlName="name">
+                    </div>
+                    <div *ngIf="name?.invalid && name?.touched" class="alert alert-danger">
+                        <div *ngIf="name?.errors?.['required']">Name is required.</div>
+                    </div>
+
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Amount</span>
+                        <input type="number" min="100" class="form-control" name="balance" formControlName="balance">
+                    </div>
+
+                    <div class="input-group input-group-sm mb-3">
+                        <label class="input-group-text">Select Bank Type</label>
+                        <select class="form-select form-select-sm" formControlName="type">
+                            <option value="Checking">Checking</option>
+                            <option value="Savings">Savings</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="newAccFormDir.resetForm({})">Close</button>
+                <button 
+                    type="button" 
+                    class="btn btn-primary" 
+                    data-bs-dismiss="modal" 
+                    [ngClass]="newAccountForm.invalid ? 'disabled' : ''"
+                    (click)="onCreateNewButton()">
+                    Create
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
